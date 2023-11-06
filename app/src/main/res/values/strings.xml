@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">BookShelf</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="hint_country">Country</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="error_invalid_email">Invalid email address</string>
+    <string name="error_invalid_password">Password must be at least 8 characters and include a number, a symbol, a lower and upper case letter</string>
+    <string name="book_shelf">Book Shelf</string>
+    <string name="log_out">Log out</string>
+</resources>
