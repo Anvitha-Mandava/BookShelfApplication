@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("dagger.hilt.android.plugin")
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -15,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.myapplication"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"

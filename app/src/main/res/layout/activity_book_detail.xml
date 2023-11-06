@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="book"
+            type="androidx.databinding.ObservableField&lt;com.example.bookshelf.data.entities.BookEntity&gt;" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.example.bookshelf.ui.activities.BookDetailActivity">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_color"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/book_shelf_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:padding="@dimen/sp_12"
+                android:singleLine="true"
+                android:text="@{book.title}"
+                android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/logout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="book title" />
+
+            <TextView
+                android:id="@+id/logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/sp_12"
+                android:text="@string/log_out"
+                android:onClick="performLogOut"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/bookDetailInclude"
+            layout="@layout/item_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/sp_12"
+            android:layout_marginEnd="@dimen/sp_12"
+            app:layout_constraintTop_toBottomOf="@+id/layout"
+            bind:book="@{book}" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/annotationsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/sp_12"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/addAnnotationButton"
+            tools:listitem="@layout/item_annotation" />
+
+        <ImageView
+            android:id="@+id/addAnnotationButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:src="@drawable/baseline_add_circle_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bookDetailInclude" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

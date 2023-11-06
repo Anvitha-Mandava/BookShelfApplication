@@ -2,12 +2,12 @@ package com.example.bookshelf.network
 
 import android.content.Context
 import android.net.ConnectivityManager
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
+import com.example.bookshelf.ui.common.getContext
 
-class ConnectivityUtil @Inject constructor(@ApplicationContext private val context: Context) {
+object ConnectivityUtil {
     fun isNetworkAvailable(): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager =
+            getContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetworkInfo = connectivityManager.activeNetworkInfo
         return activeNetworkInfo != null && activeNetworkInfo.isConnected
     }

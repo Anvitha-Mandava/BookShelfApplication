@@ -1,15 +1,15 @@
 package com.example.bookshelf.repository
 
 import com.example.bookshelf.data.models.CountryInfo
-import com.example.bookshelf.network.ConnectivityUtil
+import com.example.bookshelf.network.ConnectivityUtil.isNetworkAvailable
 import com.example.bookshelf.util.ApiException
 import com.example.bookshelf.util.NoConnectivityException
 import com.example.bookshelf.network.IpApiService
 import javax.inject.Inject
 
-class IpApiProvider @Inject constructor(val ipApiService: IpApiService, val connectivityUtil: ConnectivityUtil) {
+class IpApiProvider @Inject constructor(val ipApiService: IpApiService) {
     suspend fun getDefaultCountry(): CountryInfo {
-        if (!connectivityUtil.isNetworkAvailable()) {
+        if (!isNetworkAvailable()) {
             throw NoConnectivityException()
         }
         val response = ipApiService.getUserCountry()

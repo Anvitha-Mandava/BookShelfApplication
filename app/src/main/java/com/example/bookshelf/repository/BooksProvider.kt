@@ -6,7 +6,7 @@ import androidx.paging.PagingData
 import com.example.bookshelf.data.dao.BookDao
 import com.example.bookshelf.data.entities.BookEntity
 import com.example.bookshelf.network.BooksApiService
-import com.example.bookshelf.network.ConnectivityUtil
+import com.example.bookshelf.network.ConnectivityUtil.isNetworkAvailable
 import com.example.bookshelf.util.ApiException
 import com.example.bookshelf.util.NoConnectivityException
 import kotlinx.coroutines.flow.Flow
@@ -16,11 +16,10 @@ import javax.inject.Inject
 class BooksProvider @Inject constructor(
     private val booksApiService: BooksApiService,
     private val bookDao: BookDao,
-    private val connectivityUtil: ConnectivityUtil
 ) {
 
     suspend fun refreshBooks() {
-        if (connectivityUtil.isNetworkAvailable()) {
+        if (isNetworkAvailable()) {
             try {
                 val response = booksApiService.getBooks()
                 if (response.isSuccessful) {

@@ -3,4 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">ip-api.com</domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">cdn.myanimelist.net</domain>
+    </domain-config>
 </network-security-config>

@@ -12,4 +12,9 @@
     <string name="error_invalid_password">Password must be at least 8 characters and include a number, a symbol, a lower and upper case letter</string>
     <string name="book_shelf">Book Shelf</string>
     <string name="log_out">Log out</string>
+    <string name="published_in">Published in</string>
+    <string name="enter_your_annotation_here">Enter your annotation here</string>
+    <string name="add_annotation">Add Annotation</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

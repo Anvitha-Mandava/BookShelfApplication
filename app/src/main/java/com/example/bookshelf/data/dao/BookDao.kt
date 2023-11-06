@@ -22,6 +22,6 @@ interface BookDao {
     @Query("SELECT * FROM books ORDER BY publishedChapterDate DESC")
     fun getAllBooks(): PagingSource<Int, BookEntity>
 
-    @Query("SELECT DISTINCT strftime('%Y', datetime(publishedChapterDate / 1000, 'unixepoch')) AS year FROM books ORDER BY year DESC")
+    @Query("SELECT DISTINCT strftime('%Y', datetime(publishedChapterDate, 'unixepoch')) AS year FROM books ORDER BY year DESC")
     fun getDistinctYears(): Flow<List<Int>>
 }

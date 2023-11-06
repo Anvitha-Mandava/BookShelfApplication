@@ -1,3 +1,5 @@
+package com.example.bookshelf.ui.adapters
+
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.bookshelf.data.dao.BookDao

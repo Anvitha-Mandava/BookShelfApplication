@@ -5,12 +5,13 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.asLiveData
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.bookshelf.data.entities.BookEntity
 import com.example.bookshelf.ui.adapters.BooksAdapter
 import com.example.bookshelf.ui.common.UiState
+import com.example.bookshelf.ui.common.getYearFromTimestamp
 import com.example.bookshelf.ui.viewModels.BooksViewModel
 import com.example.myapplication.databinding.ActivityBookListBinding
 import com.google.android.material.tabs.TabLayout
@@ -25,10 +26,9 @@ class BookListActivity : AppCompatActivity() {
 
     @Inject
     lateinit var booksViewModel: BooksViewModel
+
     private val booksAdapter by lazy {
-        BooksAdapter(booksViewModel) { year ->
-            selectCorrespondingTab(year)
-        }
+        BooksAdapter(booksViewModel, ::selectCorrespondingTab, ::moveToBookDetail)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,7 +50,7 @@ class BookListActivity : AppCompatActivity() {
                 if (firstVisibleItemPosition != RecyclerView.NO_POSITION) {
                     val book = booksAdapter.peek(firstVisibleItemPosition)
                     book?.let {
-                        val year = booksViewModel.getYearFromTimestamp(book.publishedChapterDate)
+                        val year = book.publishedChapterDate.getYearFromTimestamp()
                         selectCorrespondingTab(year)
                     }
                 }
@@ -132,5 +132,12 @@ class BookListActivity : AppCompatActivity() {
     fun performLogOut(v: View) {
         startActivity(Intent(this, LoginActivity::class.java))
         finish()
+    }
+
+    private fun moveToBookDetail(book: BookEntity) {
+        val intent = Intent(this, BookDetailActivity::class.java).apply {
+            putExtra("BOOK_DETAIL", book)
+        }
+        startActivity(intent)
     }
 }

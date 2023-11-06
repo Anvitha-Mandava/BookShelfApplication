@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.bookshelf.data.models.CountryInfo
 import com.example.bookshelf.ui.common.STATUS_MESSAGE
-import com.example.bookshelf.ui.common.validateInput
+import com.example.bookshelf.ui.common.validate
 import com.example.bookshelf.ui.viewModels.UserViewModel
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySignUpBinding
@@ -72,24 +72,33 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
-    private fun validateAllInputs(): Boolean = listOf(
-        binding.nameTextInputLayout to getString(R.string.error_field_required),
-        binding.emailTextInputLayout to getString(R.string.error_invalid_email),
-        binding.passwordTextInputLayout to getString(R.string.error_invalid_password),
-        binding.countryTextInputLayout to getString(R.string.error_field_required)
-    ).all { (inputLayout, errorMessage) ->
-        inputLayout.validateInput(errorMessage) { input ->
-            when (inputLayout) {
-                binding.emailTextInputLayout -> input.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
-                    input
-                ).matches()
+    private fun validateAllInputs(): Boolean {
+        var allInputsValid = true
 
-                binding.passwordTextInputLayout -> input.isNotBlank() && viewModel.isValidPassword(
-                    input
-                )
+        val inputValidationPairs = listOf(
+            binding.nameTextInputLayout to getString(R.string.error_field_required),
+            binding.emailTextInputLayout to getString(R.string.error_invalid_email),
+            binding.passwordTextInputLayout to getString(R.string.error_invalid_password),
+            binding.countryTextInputLayout to getString(R.string.error_field_required)
+        )
 
-                else -> input.isNotBlank()
+        inputValidationPairs.forEach { (inputLayout, errorMessage) ->
+            val isValid = inputLayout.validate(errorMessage) { input ->
+                when (inputLayout) {
+                    binding.emailTextInputLayout -> input.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(
+                        input
+                    ).matches()
+
+                    binding.passwordTextInputLayout -> input.isNotBlank() && viewModel.isValidPassword(
+                        input
+                    )
+
+                    else -> input.isNotBlank()
+                }
             }
+            if (!isValid) allInputsValid = false
         }
+        return allInputsValid
     }
+
 }

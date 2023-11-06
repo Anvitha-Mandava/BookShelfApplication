@@ -60,12 +60,10 @@ class LoginActivity : AppCompatActivity() {
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             binding.emailTextInputLayout.error = getString(R.string.error_invalid_email)
-            return
         }
 
         if (password.isEmpty() || password.length < 6) {
             binding.passwordTextInputLayout.error = getString(R.string.error_invalid_password)
-            return
         }
         viewModel.authenticateUser(email, password)
     }

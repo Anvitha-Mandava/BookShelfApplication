@@ -2,6 +2,7 @@ package com.example.bookshelf.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.bookshelf.data.dao.AnnotationDao
 import com.example.bookshelf.data.dao.BookDao
 import com.example.bookshelf.data.dao.UserDao
 import com.example.bookshelf.data.database.AppDatabase
@@ -32,6 +33,11 @@ object DatabaseModule {
     @Provides
     fun provideBookDao(appDatabase: AppDatabase): BookDao {
         return appDatabase.bookDao()
+    }
+
+    @Provides
+    fun provideAnnotationDao(appDatabase: AppDatabase): AnnotationDao {
+        return appDatabase.annotationDao()
     }
 }
 

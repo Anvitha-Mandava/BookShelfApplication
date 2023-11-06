@@ -2,48 +2,46 @@ package com.example.bookshelf.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.ObservableField
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookshelf.data.entities.BookEntity
+import com.example.bookshelf.ui.common.getYearFromTimestamp
 import com.example.bookshelf.ui.viewModels.BooksViewModel
-import com.example.myapplication.R
 import com.example.myapplication.databinding.ItemBookBinding
 
 class BooksAdapter(
-    private val viewModel: BooksViewModel, private val yearChangeListener: (Int) -> Unit
+    private val viewModel: BooksViewModel,
+    private val yearChangeListener: (Int) -> Unit,
+    private val moveToDetail: (BookEntity) -> Unit
 ) : PagingDataAdapter<BookEntity, BooksAdapter.BookViewHolder>(BOOK_COMPARATOR) {
 
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
         val book = getItem(position) ?: return
         book.let {
-            val currentYear = viewModel.getYearFromTimestamp(book.publishedChapterDate)
-            if (position == 0 || viewModel.getYearFromTimestamp(
-                    getItem(position - 1)?.publishedChapterDate ?: 0L
-                ) != currentYear
-            ) {
+            val currentYear = book.publishedChapterDate.getYearFromTimestamp()
+            if (position == 0 || hasYearChanged(currentYear, position)) {
                 yearChangeListener.invoke(currentYear)
             }
         }
         holder.bind(book)
     }
 
+    private fun hasYearChanged(currentYear: Int, position: Int) =
+        (getItem(position - 1)?.publishedChapterDate ?: 0L).getYearFromTimestamp() != currentYear
+
     inner class BookViewHolder(val binding: ItemBookBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(book: BookEntity) {
             binding.apply {
+                this.book = ObservableField(book)
                 favoriteIcon.setOnClickListener {
                     viewModel.toggleFavorite(book)
                 }
                 layout.setOnClickListener {
-                    //Move to detail page
+                    moveToDetail.invoke(book)
                 }
-                favoriteIcon.setImageResource(if (book.isFavorite) R.drawable.ic_favorite_filled else R.drawable.ic_favorite_gray)
-                imageUrl = book.image
-                bookScore.text = book.score.toString()
-                bookTitle.text = book.title
-                bookPublishDate.text = book.publishedChapterDate.toString()
-                bookImage.drawable
             }
         }
     }
